@@ -1,4 +1,9 @@
 import React from "react";
+import styled from "styled-components"
+
+const NewsListBlock=styled.div`
+
+`
 
 const NewsListItem = ({title,contents,url}) => {
   return <div>
