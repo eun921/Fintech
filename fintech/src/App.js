@@ -4,6 +4,7 @@ import NewsSearch from "./pages/NewsSearch";
 import AuthResult from "./pages/AuthResult";
 import AddUser from "./pages/AddUser";
 import Main from "./pages/Main";
+import Balance from "./pages/Balance";
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
         </Route>
         <Route path="/main" exact>
           <Main></Main>
+        </Route>
+        <Route path="/balance" exact>
+          <Balance></Balance>
         </Route>
       </Switch>
     </Router>
