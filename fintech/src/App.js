@@ -5,6 +5,7 @@ import AuthResult from "./pages/AuthResult";
 import AddUser from "./pages/AddUser";
 import Main from "./pages/Main";
 import Balance from "./pages/Balance";
+import QrCode from "./pages/QrCode";
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
         </Route>
         <Route path="/balance" exact>
           <Balance></Balance>
+        </Route>
+        <Route path="/qrcode" exact>
+          <QrCode></QrCode>
         </Route>
       </Switch>
     </Router>
