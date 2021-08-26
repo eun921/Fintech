@@ -3,6 +3,7 @@ import AxiosTest from "./pages/AxiosTest";
 import NewsSearch from "./pages/NewsSearch";
 import AuthResult from "./pages/AuthResult";
 import AddUser from "./pages/AddUser";
+import Main from "./pages/Main";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
         </Route>
         <Route path="/authResult" exact>
           <AuthResult></AuthResult>
+        </Route>
+        <Route path="/main" exact>
+          <Main></Main>
         </Route>
       </Switch>
     </Router>
