@@ -27,7 +27,7 @@ const WithDrawButton = styled.button`
 `;
 
 const ModalCard = ({ bankName, fintechUseNo, tofintechno }) => {
-  // input data 받아온다음에 결제 버튼을 눌렀을때 axios 출금 이체를 바생시키기;
+  // input data 받아온다음에 결제 버튼을 눌렀을때 axios 출금 이체를 발생시키기;
   const [amount, setamount] = useState("");
   const handleAmountChange = (e) => {
     const { value } = e.target;
@@ -35,7 +35,7 @@ const ModalCard = ({ bankName, fintechUseNo, tofintechno }) => {
   };
   const genTransId = () => {
     let countnum = Math.floor(Math.random() * 1000000000) + 1;
-    let transId = "M202113067U" + countnum; //이용기과번호 본인것 입력
+    let transId = "M202113067U" + countnum; //이용기관번호 본인것 입력
     return transId;
   };
 
@@ -47,9 +47,9 @@ const ModalCard = ({ bankName, fintechUseNo, tofintechno }) => {
       cntr_account_num: "3332132",
       dps_print_content: "이용료",
       fintech_use_num: fintechUseNo,
-      wd_print_content: "이용료",
+      wd_print_content: "오픈뱅킹출금",
       tran_amt: amount,
-      tran_dtime: "20210528114700",
+      tran_dtime: "20210827110700",
       req_client_name: "이고은",
       req_client_fintech_use_num: fintechUseNo,
       req_client_num: "HONGGILDONG1234",
@@ -68,6 +68,49 @@ const ModalCard = ({ bankName, fintechUseNo, tofintechno }) => {
     };
     axios(option).then(({ data }) => {
       console.log(data);
+      if (data.rsp_code === "A0000") {
+        //#last work 입금 이체 발생시키기
+        deposit();
+      }
+    });
+  };
+
+  const deposit = () => {
+    const twoLeggedToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIxMTAwOTk3NDk5Iiwic2NvcGUiOlsiaW5xdWlyeSIsImxvZ2luIiwidHJhbnNmZXIiXSwiaXNzIjoiaHR0cHM6Ly93d3cub3BlbmJhbmtpbmcub3Iua3IiLCJleHAiOjE2Mzc3MjIwMjgsImp0aSI6IjNhMTJhMDBmLTc1Y2ItNDQwYi1hZDAyLTU2ZDFjODVkZTE1YSJ9.vuJkBOLN2ixs1R4SbgI8AqRMPPrdovuyZIfvb0r6J0g";
+    const option = {
+      method: "POST",
+      url: "/v2.0/transfer/deposit/fin_num",
+      headers: {
+        Authorization: `bearer ${twoLeggedToken}`,
+      },
+      data: {
+        cntr_account_type: "N",
+        cntr_account_num: "3332132",
+        wd_pass_phrase: "NONE",
+        wd_print_content: "환불금액",
+        name_check_option: "off",
+        tran_dtime: "20200721142000",
+        req_cnt: "1",
+        req_list: [
+          {
+            tran_no: "1",
+            bank_tran_id: genTransId(),
+            fintech_use_num: tofintechno,
+            print_content: "쇼핑몰환불",
+            tran_amt: amount,
+            req_client_name: "이고은",
+            req_client_fintech_use_num: tofintechno,
+            req_client_num: "HONGGILDONG1234",
+            transfer_purpose: "ST",
+          },
+        ],
+      },
+    };
+    axios(option).then(({ data }) => {
+      if (data.rsp_code === "A0000") {
+        alert("결제 완료");
+      }
     });
   };
 
